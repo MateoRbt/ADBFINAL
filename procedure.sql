@@ -40,3 +40,26 @@ END $$
 DELIMITER ;
 
 CALL AddReview(1, 1, 5, 'Great Package', '2021-06-01');
+
+
+DELIMITER $$
+CREATE PROCEDURE GetPassengerList()
+BEGIN
+	SELECT
+    	c.name AS Passenger_Name,
+    	t.departure_date AS Departure_Date,
+    	e.name AS Guide_Name
+	FROM
+    	Booking b
+	INNER JOIN
+    	Customer c ON b.Customer_idCostumer = c.idCostumer
+	INNER JOIN
+    	Tour t ON b.Tour_idTour = t.idTour
+	INNER JOIN
+    	Employee e ON t.Guide_idGuide = e.idEmployee
+	ORDER BY
+    	t.departure_date, c.name,e.name;
+END$$
+DELIMITER ;
+
+CALL GetPassengerList();
